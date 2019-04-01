@@ -13,10 +13,11 @@ module.exports = {
                 test: /\.png|jpg|gif/,
                 use: [
                     {
-                        loader: 'file-loader',
+                        loader: 'url-loader',
                         options:{
                             name: '[name]_[hash].[ext]',
-                            outputPath: 'images/'
+                            outputPath: 'images/',
+                            limit: 10240
                         }
                     }
                 ]
