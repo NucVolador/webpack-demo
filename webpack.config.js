@@ -1,12 +1,16 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
+    entry: {
+        main: './src/index.js',
+        vendor: ['lodash']
+    },
     output: {
-        filename: 'bundle.js',
+        filename: '[name]_[chunkhash].js',
         path: path.resolve(__dirname, 'bundle')
     },
     module:{
@@ -80,6 +84,15 @@ module.exports = {
             title: 'template'
         }),
         // 在打包前删除 output的目录，然后重新打包
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'main'
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor'
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'mainfest'
+        })
     ]
 }

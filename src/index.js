@@ -1,5 +1,6 @@
 import logo from './tclogo.png';
 import main from './index.less'
+import _ from 'lodash';
 
 function component() {
   var element = document.createElement('div');
@@ -31,3 +32,8 @@ document.body.appendChild(component());
 document.body.appendChild(img('logo'));
 document.body.appendChild(img('aa'));
 document.body.appendChild(createicon());
+
+
+let obj = {aa:1}
+
+let b = _.get(obj,'aa')
