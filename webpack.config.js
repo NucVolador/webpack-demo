@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -68,5 +69,14 @@ module.exports = {
                 ]
             }
         ]
-    }
+    },
+    plugins: [
+        // 进行html文件的创建，并自动加载 打包生成的 js css文件，
+        // 此plugin在有hash值是特别好用
+        // 详细用法见 https://github.com/jantimon/html-webpack-plugin#configuration
+        new HtmlWebpackPlugin({
+            template: './public/index.html',
+            title: 'template'
+        })
+    ]
 }
