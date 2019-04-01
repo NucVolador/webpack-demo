@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -77,6 +78,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './public/index.html',
             title: 'template'
-        })
+        }),
+        // 在打包前删除 output的目录，然后重新打包
+        new CleanWebpackPlugin()
     ]
 }
