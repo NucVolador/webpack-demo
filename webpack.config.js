@@ -6,5 +6,21 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'bundle')
+    },
+    module:{
+        rules: [
+            {
+                test: /\.png|jpg|gif/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options:{
+                            name: '[name]_[hash].[ext]',
+                            outputPath: 'images/'
+                        }
+                    }
+                ]
+            }
+        ]
     }
 }
