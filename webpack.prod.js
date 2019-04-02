@@ -4,10 +4,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: {
-        main: './src/index.js',
-        vendor: ['lodash']
+        main: './src/index.js'
     },
     output: {
         filename: '[name]_[hash].js',
@@ -122,15 +121,11 @@ module.exports = {
             title: 'template'
         }),
         // 在打包前删除 output的目录，然后重新打包
-        new CleanWebpackPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new CleanWebpackPlugin()
     ],
-    devtool: 'cheap-module-eval-source-map',
-    devServer: {
-        port: 8888,
-        contentBase: './bundle',
-        open: true,
-        hot: true
-        // hotOnly: true
-    }
+    optimization: {
+        usedExports: true
+    },
+    devtool: 'cheap-module-source-map'
+      
 }
