@@ -1,17 +1,9 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-module.exports = {
-    mode: 'production',
-    entry: {
-        main: './src/index.js'
-    },
-    output: {
-        filename: '[name]_[hash].js',
-        path: path.resolve(__dirname, 'bundle')
-    },
+const config = {
+    mode: 'development',
     module:{
         rules: [
             { 
@@ -74,41 +66,6 @@ module.exports = {
                         }
                     }
                 ]
-            },{
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            // css module  和 vue中的scoped一样
-                            modules: true,
-                        }
-                    }
-                ]
-            },{
-                test: /\.less$/,
-                use: [
-                    'style-loader',
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            modules: true,
-                            sourceMap: true,
-                            importLoaders: 2
-                        }
-                    },{
-                        loader: 'less-loader',
-                        options: {
-                            sourceMap: true
-                        }
-                    },{
-                        loader: 'postcss-loader',
-                        options: {
-
-                        }
-                    }
-                ]
             }
         ]
     },
@@ -121,11 +78,17 @@ module.exports = {
             title: 'template'
         }),
         // 在打包前删除 output的目录，然后重新打包
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin({
+            root: path.resolve(__dirname, '../')
+        })
     ],
+    // tree shaking
     optimization: {
         usedExports: true
     },
-    devtool: 'cheap-module-source-map'
-      
+    output: {
+        path: path.resolve(__dirname, '../bundle')
+    }
 }
+
+module.exports =  config;
