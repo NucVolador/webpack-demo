@@ -4,5 +4,6 @@
             "useBuiltIns": "usage",
             "corejs": "core-js@3"
         }]   
-    ]
+    ],
+    "plugins": ["@babel/plugin-syntax-dynamic-import"]
 }

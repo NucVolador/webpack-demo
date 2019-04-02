@@ -84,7 +84,20 @@ const config = {
     ],
     // tree shaking
     optimization: {
-        usedExports: true
+        usedExports: true,
+        splitChunks: {
+            chunks: "async",
+            minSize: 30000,
+            minChunks: 1,
+            maxAsyncRequests: 5,
+            maxInitialRequests: 3,
+            automaticNameDelimiter: '~',
+            name: true,
+            cacheGroups: {
+                vendors: false,
+                default: false
+            }
+        }
     },
     output: {
         path: path.resolve(__dirname, '../bundle')
