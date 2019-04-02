@@ -10,12 +10,50 @@ module.exports = {
         vendor: ['lodash']
     },
     output: {
-        filename: '[name]_[chunkhash].js',
+        filename: '[name]_[hash].js',
         path: path.resolve(__dirname, 'bundle')
     },
     module:{
         rules: [
-            {
+            { 
+                test: /\.js$/, 
+                exclude: /node_modules/, 
+                loader: "babel-loader",
+                options:{
+                    ignore: [
+                        /\/core-js/,
+                    ],
+                    // 装babel-loader  core-js3  polyfill babel/preset-env就行
+                    // presets: [
+                        // 这个preset是用于es6语法转换的
+                        // useBuiltIns 只注入使用到的高级语法，为使用到的不注入
+                        // ["@babel/preset-env",{
+                        //     useBuiltIns: "usage",
+                        //     corejs: "core-js@3",
+                        //     targets: {
+                        //         chrome: "67"
+                        //     }
+                        // }]
+
+                        
+                    // ],
+                    // 下面这个是针对类库打包的配置
+                    // 需要安装
+                    // npm install --save-dev @babel/plugin-transform-runtime
+                    // npm install --save @babel/runtime
+                    // npm install --save @babel/runtime-corejs3
+                    // 这种方式打包是用闭包引入的，不会污染全局环境
+                    // plugins: [
+                    //     ["@babel/plugin-transform-runtime",{
+                    //         "absoluteRuntime": false,
+                    //         "corejs": 3,
+                    //         "helpers": true,
+                    //         "regenerator": true,
+                    //         "useESModules": false
+                    //     }]
+                    // ]
+                } 
+            },{
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
                 use: [
                     {
@@ -85,14 +123,14 @@ module.exports = {
         }),
         // 在打包前删除 output的目录，然后重新打包
         new CleanWebpackPlugin(),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'main'
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor'
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'mainfest'
-        })
-    ]
+        new webpack.HotModuleReplacementPlugin()
+    ],
+    devtool: 'cheap-module-eval-source-map',
+    devServer: {
+        port: 8888,
+        contentBase: './bundle',
+        open: true,
+        hot: true
+        // hotOnly: true
+    }
 }
